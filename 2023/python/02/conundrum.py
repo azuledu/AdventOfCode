@@ -1,47 +1,62 @@
 import re
 
 
-def get_rgb(cubesets: list) -> list:
-    max_red_cubes = 0
-    max_green_cubes = 0
-    max_blue_cubes = 0
+def get_fewest_rgb(game: str) -> list:
+    min_red_cubes = 0
+    min_green_cubes = 0
+    min_blue_cubes = 0
+
+    cubesets = game.rstrip().split(':')[1].replace(';', ',').split(',')
 
     for cubeset in cubesets:
         cubes = int(re.search('\d+', cubeset).group())
         # color = re.search('[a-z]+', cubeset)
 
-        if 'red' in cubeset and cubes > max_red_cubes:
-            max_red_cubes = cubes
-        elif 'green' in cubeset and cubes > max_green_cubes:
-            max_green_cubes = cubes
-        elif 'blue' in cubeset and cubes > max_blue_cubes:
-            max_blue_cubes = cubes
+        if 'red' in cubeset and cubes > min_red_cubes:
+            min_red_cubes = cubes
+        elif 'green' in cubeset and cubes > min_green_cubes:
+            min_green_cubes = cubes
+        elif 'blue' in cubeset and cubes > min_blue_cubes:
+            min_blue_cubes = cubes
 
-    return [max_red_cubes, max_green_cubes, max_blue_cubes]
+    return [min_red_cubes, min_green_cubes, min_blue_cubes]
 
 
 def is_valid_game(game, max_rgb):
-    cubesets = game.rstrip().split(':')[1].replace(';', ',').split(',')
-    rgb = get_rgb(cubesets)
+    rgb = get_fewest_rgb(game)
     for i in range(len(max_rgb)):
         if rgb[i] > max_rgb[i]:
             return False
     return True
 
 
-if __name__ == '__main__':
+def main():
     input_file = open("input.txt", "r")
 
-    sum = 0
+    max_rgb = [12, 13, 14]
+    sum_of_ids = 0
+    sum_of_powers = 0
     while True:
         game = input_file.readline()
         if not game:
-            print("Sum: ", sum)
+            print("Sum of IDs: ", sum_of_ids)
+            print("Sum of powers: ", sum_of_powers)
             break
-        elif is_valid_game(game, [12, 13, 14]):
+        elif is_valid_game(game, max_rgb):
             game_id = int(game.strip().split(':')[0].split()[1])
-            sum += game_id
+            sum_of_ids += game_id
+
+        power = 1
+        fewest_rgb = get_fewest_rgb(game)
+        for min_cubes in fewest_rgb:
+            power *= min_cubes
+        sum_of_powers += power
 
     input_file.close()
+
+
+if __name__ == '__main__':
+    main()
+
 
 

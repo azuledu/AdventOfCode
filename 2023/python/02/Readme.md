@@ -38,7 +38,7 @@ games that would have been possible, you get 8.
 Determine which games would have been possible if the bag had been loaded with only 12 red cubes, 13 green cubes, 
 and 14 blue cubes. What is the sum of the IDs of those games?
 
-Your puzzle answer was 2265.
+_Your puzzle answer was 2265._
 
 
 ### Part Two
@@ -73,3 +73,4 @@ Adding up these five powers produces the sum 2286.
 For each game, find the minimum set of cubes that must have been present. 
 **What is the sum of the power of these sets?**
 
+_Your puzzle answer was 64097._
